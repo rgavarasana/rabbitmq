@@ -1,2 +1,2 @@
 # rabbitmq
-Learning RabbitMQ
+Learning RabbitMQ following PluralSight course - RabbitMQ for .NET Developers
