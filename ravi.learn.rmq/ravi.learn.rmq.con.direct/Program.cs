@@ -8,7 +8,7 @@ namespace ravi.learn.rmq.con.console
         {
             Console.WriteLine("Starting RabbitMQ processor");
 
-            var queueConsumer = new RabbitConsumer { Enabled = true };
+            var queueConsumer = new RabbitConsumer();
             queueConsumer.Start();
 
             Console.WriteLine("Done processing all messages");
