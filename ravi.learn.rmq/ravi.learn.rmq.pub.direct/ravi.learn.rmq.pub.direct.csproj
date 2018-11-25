@@ -3,8 +3,8 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.1</TargetFramework>
-    <AssemblyName>ravi.learn.rmq.pub.console</AssemblyName>
-    <RootNamespace>ravi.learn.rmq.pub.console</RootNamespace>
+    <AssemblyName>ravi.learn.rmq.pub.direct</AssemblyName>
+    <RootNamespace>ravi.learn.rmq.pub.direct</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

@@ -1,22 +1,22 @@
 ﻿using RabbitMQ.Client;
+using RabbitMQ.Client.Events;
 using System;
-using System.Collections.Generic;
 using System.Text;
 
-namespace ravi.learn.rmq.pub.console
-{   
-    public class RabbitSender : IDisposable
+namespace ravi.learn.rmq.con.console
+{
+    public class RabbitConsumer : IDisposable
     {
         private const string RMQ_HOST = "localhost";
         private const string RMQ_USERNAME = "guest";
         private const string RMQ_PWD = "guest";
         private const string RMQ_DEFAULT_EXCHANGE = "";
+        private const string RMQ_QUEUE = "FirstQueue";
 
         private readonly ConnectionFactory _connectionFactory;
         private readonly IConnection _connection;
-        private readonly IModel _model;
-
-        public RabbitSender()
+        
+        public RabbitConsumer()
         {
             _connectionFactory = new ConnectionFactory
             {
@@ -24,21 +24,26 @@ namespace ravi.learn.rmq.pub.console
                 UserName = RMQ_USERNAME,
                 Password = RMQ_PWD
             };
-
             _connection = _connectionFactory.CreateConnection();
-            _model = _connection.CreateModel();
         }
 
-        public void SendMessage(string message)
-        {     
-            var properties = _model.CreateBasicProperties();
-            properties.Persistent = true;
-
-            var serializedMessage = Encoding.Default.GetBytes(message);
-
-            _model.BasicPublish(RMQ_DEFAULT_EXCHANGE, "", properties, serializedMessage);
+        public void Start()
+        {
+            using (var channel = _connection.CreateModel())
+            {
+                var consumer = new EventingBasicConsumer(channel);
+                consumer.Received += (sender, e) =>
+                {
+                    var body = e.Body;
+                    var message = Encoding.UTF8.GetString(body);
+                    Console.WriteLine($" [x] Received {message}");
+                };
+                channel.BasicConsume(RMQ_QUEUE, true, consumer);
+                Console.WriteLine("Press <ENTER> to exit");
+                Console.ReadLine();
+            }
         }
-
+    
         #region IDisposable Support
         private bool disposedValue = false; // To detect redundant calls
 
@@ -48,6 +53,7 @@ namespace ravi.learn.rmq.pub.console
             {
                 if (disposing)
                 {
+                    // TODO: dispose managed state (managed objects).
                     _connection.Dispose();                    
                 }
 
@@ -59,7 +65,7 @@ namespace ravi.learn.rmq.pub.console
         }
 
         // TODO: override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
-        // ~RabbitSender() {
+        // ~RabbitConsumer() {
         //   // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
         //   Dispose(false);
         // }
