@@ -20,5 +20,10 @@ namespace ravi.learn.rmq.common.Extensions
             var jsonData = Encoding.Default.GetString(byteData);
             return JsonConvert.DeserializeObject<T>(jsonData);
         }
+
+        public static string DeserializeToText(this byte[] byteData)
+        {
+            return Encoding.Default.GetString(byteData);
+        }
     }
 }
