@@ -2,6 +2,7 @@
 {
     public static class Constants
     {
+        public const string FANOUT_EXCHANGE = "FanoutExchange";
         public const string QUEUE_NAME = "StandardQueue";
         public const string RMQ_HOST = "localhost";
         public const string RMQ_USERID = "guest";

@@ -29,9 +29,5 @@ namespace ravi.learn.rmq.common
             _connection = null;
         }
 
-        public void CreateExchange(string exchangeName)
-        {
-
-        }
     }
 }
